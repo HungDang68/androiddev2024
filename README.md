@@ -12,5 +12,5 @@ Student Info
 
 * Name: Đặng Tuấn Hưng
 * ID: BA12-082  
-* Group ID: *Your Group ID here*
+* Group ID: 12
 * Project Name: *Your Project Name here*

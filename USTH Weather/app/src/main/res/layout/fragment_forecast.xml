@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,10 +12,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#DCBA0B"
-        android:text="@string/hello_blank_fragment"
+        android:text="Thursday"
         android:textAlignment="center"
         android:textAllCaps="false"
         android:textSize="34sp"
         android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/weather_clock_amazon_com_appstore_for_android" />
 
 </FrameLayout>

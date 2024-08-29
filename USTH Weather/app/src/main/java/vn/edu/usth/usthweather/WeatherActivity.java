@@ -22,6 +22,12 @@ public class WeatherActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        ForecastFragment forecastFragment = new ForecastFragment();
+
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().add(R.id.main, forecastFragment).commit();
     }
     @Override
     protected void onStop(){
@@ -48,7 +54,6 @@ public class WeatherActivity extends AppCompatActivity {
         super.onStart();
         Log.i("success","Started");
     }
-    FragmentManager fragmentManager_ = getSupportFragmentManager();
-
 
 }
+

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#B7EDF4"
+    tools:context=".WeatherFragment" >
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="140dp"
+        android:layout_height="91dp"
+        android:layout_alignParentRight="true"
+        android:text="Location"
+        android:textAlignment="viewEnd" />
+
+    <TextView
+        android:id="@+id/textView22"
+        android:layout_width="140dp"
+        android:layout_height="91dp"
+        android:layout_alignParentLeft="true"
+        android:text="OC"
+        android:textAlignment="viewStart" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="268dp"
+        android:layout_height="334dp"
+        android:layout_centerInParent="true"
+        android:src="@drawable/rainy" />
+</RelativeLayout>

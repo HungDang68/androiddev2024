@@ -23,14 +23,18 @@ public class WeatherActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
-        ForecastFragment forecastFragment = new ForecastFragment();
-
+        
 
         FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.fragmentContainerView, ForecastFragment.class, null);
-        fragmentTransaction.commit();
+
+        fragmentManager.beginTransaction()
+                .add(R.id.fragmentContainerView, ForecastFragment.class, null)
+                .commit();
+
+
+        fragmentManager.beginTransaction()
+                .add(R.id.fragmentContainerView2, WeatherFragment.class,null)
+                .commit();
     }
     @Override
     protected void onStop(){

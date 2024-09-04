@@ -32,16 +32,26 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="684dp"
         android:orientation="vertical"
         android:padding="10dp">
 
         <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/fragmentContainerView"
-            android:name="vn.edu.usth.usthweather.ForecastFragment"
+            android:id="@+id/fragmentContainerView2"
+            android:name="vn.edu.usth.usthweather.WeatherFragment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-<!--            android:layout_margin="@android:dimen/app_icon_size" -->
+            android:layout_height="309dp" />
+
+
+
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/fragmentContainerView"
+                    android:name="vn.edu.usth.usthweather.ForecastFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="332dp" />
+
+
+        <!--            android:layout_margin="@android:dimen/app_icon_size" -->
 
     </LinearLayout>
 

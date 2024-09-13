@@ -9,32 +9,32 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
+
+import com.google.android.material.tabs.TabLayout;
 
 public class WeatherActivity extends AppCompatActivity {
+    private TabLayout tabLayout;
+    private ViewPager viewPager2;
+    private HomeFragmentPagerAdapter homeFragmentPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_weather);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
-        
+        tabLayout=findViewById(R.id.tab_layout);
+        viewPager2=findViewById(R.id.view_pager);
+        homeFragmentPagerAdapter=new HomeFragmentPagerAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        viewPager2.setAdapter(homeFragmentPagerAdapter);
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-
-        fragmentManager.beginTransaction()
-                .add(R.id.fragmentContainerView, ForecastFragment.class, null)
-                .commit();
+        tabLayout.setupWithViewPager(viewPager2);
 
 
-        fragmentManager.beginTransaction()
-                .add(R.id.fragmentContainerView2, WeatherFragment.class,null)
-                .commit();
+
     }
     @Override
     protected void onStop(){

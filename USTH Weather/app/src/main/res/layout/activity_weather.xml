@@ -17,13 +17,14 @@
             android:id="@+id/imageView2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:contentDescription="@string/todo"
             android:src="#f2db14" />
 
         <TextView
             android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="hey"
+            android:text="@string/hey"
             android:textAlignment="viewStart"
             android:textSize="34sp"
             android:textStyle="bold" />

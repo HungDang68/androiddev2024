@@ -1,12 +1,18 @@
 package vn.edu.usth.usthweather;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.MenuItem;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -21,16 +27,79 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.tabs.TabLayout;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 public class WeatherActivity extends AppCompatActivity {
     private BottomNavigationView mbottomNavigationView;
     private ViewPager2 mviewPager;
     private ArrayList<Fragment> fragmentManager=new ArrayList<>();
+    private MediaPlayer mediaPlayer;
+    private static final int REQUEST_WRITE_EXTERNAL_STORAGE = 1;
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_WRITE_EXTERNAL_STORAGE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                try {
+                    extractAndPlayAudio();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            } else {Log.e("WeatherActivity", "Permission denied to write to external storage");
+            }
+        }
+    }
+
+    private void extractAndPlayAudio() throws IOException {
+        try {
+            // Extract the MP3 file to sdcard
+            InputStream is = getResources().openRawResource(R.raw.sample);
+            File outputFile = new File(Environment.getExternalStorageDirectory(), "sample_3s.mp3");
+            FileOutputStream fos = new FileOutputStream(outputFile);
+
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = is.read(buffer)) > 0) {
+                fos.write(buffer, 0, length);
+            }
+
+            is.close();
+            fos.close();
+
+            // Play the extracted audio file
+            mediaPlayer = new MediaPlayer();
+            mediaPlayer.setDataSource(outputFile.getAbsolutePath());
+            mediaPlayer.prepare();
+            mediaPlayer.start();
+        } catch (IOException e) {
+            Log.e("WeatherActivity", "Error extracting and playing audio", e);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    REQUEST_WRITE_EXTERNAL_STORAGE);
+        } else {
+            try {
+                extractAndPlayAudio();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
         setContentView(R.layout.activity_weather);
         EdgeToEdge.enable(this);
 
@@ -95,11 +164,13 @@ public class WeatherActivity extends AppCompatActivity {
 
 
 
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
     }
 }
 

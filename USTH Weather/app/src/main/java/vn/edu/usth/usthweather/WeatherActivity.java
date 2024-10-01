@@ -6,6 +6,9 @@ import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,18 +25,13 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.viewpager.widget.ViewPager;
+
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
-import com.google.android.material.tabs.TabLayout;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -46,6 +44,37 @@ public class WeatherActivity extends AppCompatActivity {
     private ArrayList<Fragment> fragmentManager=new ArrayList<>();
     private MediaPlayer mediaPlayer;
     private static final int REQUEST_WRITE_EXTERNAL_STORAGE = 1;
+
+    final Handler handler = new Handler(Looper.getMainLooper()) {
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            String response = msg.getData().getString("response");
+            Toast.makeText(WeatherActivity.this, response, Toast.LENGTH_SHORT).show();
+        }
+    };
+
+
+
+    Thread thread= new Thread(new Runnable() {
+        @Override
+        public void run() {
+            try {
+                Thread.sleep(2000); // Simulate network request delay
+
+                String simulatedResponse = "This is a simulated response from the server";
+                Message msg = handler.obtainMessage(); // Obtain a message from the handler
+                Bundle bundle = new Bundle();
+                bundle.putString("response", simulatedResponse);
+                msg.setData(bundle);
+                handler.sendMessage(msg);
+            } catch (InterruptedException e) {
+                e.printStackTrace();}
+
+
+        }
+    });
+
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -175,7 +204,7 @@ public class WeatherActivity extends AppCompatActivity {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 if (item.getItemId() == R.id.refesh_button) {
-                    Toast.makeText(WeatherActivity.this, "Refresh clicked", Toast.LENGTH_SHORT).show();
+                    thread.start();
                     return true;
                 } else if (item.getItemId() == R.id.newActivity) {
                     Intent intent = new Intent(WeatherActivity.this, PrefActivity.class);

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -181,6 +182,8 @@ public class WeatherActivity extends AppCompatActivity {
                     startActivity(intent);
                     return true;
                 }
+                return false;
+
             }
         });
 
@@ -193,6 +196,13 @@ public class WeatherActivity extends AppCompatActivity {
         });
 
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater=getMenuInflater();
+        inflater.inflate(R.menu.toolbar,menu);
+        return true;
+    }
+
 
 }
 

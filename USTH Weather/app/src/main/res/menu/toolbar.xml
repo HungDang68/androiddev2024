@@ -6,5 +6,5 @@
         android:icon="@drawable/baseline_refresh_24"
         app:showAsAction="always"/>
     <item android:id="@+id/newActivity"
-        android:title="@string/prefactivity"/>
+        android:title="@string/go_to_search"/>
 </menu>

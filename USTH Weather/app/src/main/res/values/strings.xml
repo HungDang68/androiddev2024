@@ -9,7 +9,7 @@
     <string name="location">Location</string>
     <string name="celcius">Celcius</string>
     <string name="oc">OC</string>
-    <string name="back" />
-    <string name="refesh">refresh</string>
-    <string name="prefactivity">PrefActivity</string>
+    <string name="refesh" translatable="false">refresh</string>
+    <string name="go_to_search" translatable="false">go</string>
+    <string name="prefactivity" translatable="false">PrefActivity</string>
 </resources>

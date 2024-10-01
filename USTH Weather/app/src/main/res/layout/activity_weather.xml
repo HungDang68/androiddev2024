@@ -15,29 +15,8 @@
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
+        app:menu="@menu/toolbar"
         android:theme="?attr/actionBarTheme" />
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:contentDescription="@string/todo"
-            android:src="#f2db14" />
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/hey"
-            android:textAlignment="viewStart"
-            android:textSize="34sp"
-            android:textStyle="bold" />
-
-    </FrameLayout>
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/view_pager"

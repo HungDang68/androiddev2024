@@ -1,16 +1,20 @@
 package vn.edu.usth.usthweather;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
@@ -36,6 +40,7 @@ import java.util.ArrayList;
 
 public class WeatherActivity extends AppCompatActivity {
     private BottomNavigationView mbottomNavigationView;
+    private Toolbar toolbar;
     private ViewPager2 mviewPager;
     private ArrayList<Fragment> fragmentManager=new ArrayList<>();
     private MediaPlayer mediaPlayer;
@@ -163,6 +168,22 @@ public class WeatherActivity extends AppCompatActivity {
         });
 
 
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if (item.getItemId() == R.id.refesh_button) {
+                    Toast.makeText(WeatherActivity.this, "Refresh clicked", Toast.LENGTH_SHORT).show();
+                    return true;
+                } else if (item.getItemId() == R.id.newActivity) {
+                    Intent intent = new Intent(WeatherActivity.this, PrefActivity.class);
+                    startActivity(intent);
+                    return true;
+                }
+            }
+        });
+
 
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -172,5 +193,7 @@ public class WeatherActivity extends AppCompatActivity {
         });
 
     }
+
 }
+
 

@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -45,34 +46,34 @@ public class WeatherActivity extends AppCompatActivity {
     private MediaPlayer mediaPlayer;
     private static final int REQUEST_WRITE_EXTERNAL_STORAGE = 1;
 
-    final Handler handler = new Handler(Looper.getMainLooper()) {
-        @Override
-        public void handleMessage(@NonNull Message msg) {
-            String response = msg.getData().getString("response");
-            Toast.makeText(WeatherActivity.this, response, Toast.LENGTH_SHORT).show();
-        }
-    };
-
-
-
-    Thread thread= new Thread(new Runnable() {
-        @Override
-        public void run() {
-            try {
-                Thread.sleep(2000); // Simulate network request delay
-
-                String simulatedResponse = "This is a simulated response from the server";
-                Message msg = handler.obtainMessage(); // Obtain a message from the handler
-                Bundle bundle = new Bundle();
-                bundle.putString("response", simulatedResponse);
-                msg.setData(bundle);
-                handler.sendMessage(msg);
-            } catch (InterruptedException e) {
-                e.printStackTrace();}
-
-
-        }
-    });
+//    final Handler handler = new Handler(Looper.getMainLooper()) {
+//        @Override
+//        public void handleMessage(@NonNull Message msg) {
+//            String response = msg.getData().getString("response");
+//            Toast.makeText(WeatherActivity.this, response, Toast.LENGTH_SHORT).show();
+//        }
+//    };
+//
+//
+//
+//    Thread thread= new Thread(new Runnable() {
+//        @Override
+//        public void run() {
+//            try {
+//                Thread.sleep(2000); // Simulate network request delay
+//
+//                String simulatedResponse = "This is a simulated response from the server";
+//                Message msg = handler.obtainMessage(); // Obtain a message from the handler
+//                Bundle bundle = new Bundle();
+//                bundle.putString("response", simulatedResponse);
+//                msg.setData(bundle);
+//                handler.sendMessage(msg);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();}
+//
+//
+//        }
+//    });
 
 
 
@@ -198,13 +199,37 @@ public class WeatherActivity extends AppCompatActivity {
         });
 
 
+
+        class task extends AsyncTask<Void, Void, String> {
+
+
+            @Override
+            protected String doInBackground(Void... params) {
+                try {
+                    Thread.sleep(2000);
+                    return "This is a simulated response from the server";
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                    return null;}
+            }
+
+
+
+            @Override
+            protected void onPostExecute(String result) {
+                if (result != null) {
+                    Toast.makeText(WeatherActivity.this, result, Toast.LENGTH_SHORT).show();
+                }
+            }
+}
+
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 if (item.getItemId() == R.id.refesh_button) {
-                    thread.start();
+                    new task().execute();
                     return true;
                 } else if (item.getItemId() == R.id.newActivity) {
                     Intent intent = new Intent(WeatherActivity.this, PrefActivity.class);

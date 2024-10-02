@@ -3,6 +3,8 @@ package vn.edu.usth.usthweather;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -14,6 +16,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -36,6 +39,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class WeatherActivity extends AppCompatActivity {
@@ -45,6 +50,9 @@ public class WeatherActivity extends AppCompatActivity {
     private ArrayList<Fragment> fragmentManager=new ArrayList<>();
     private MediaPlayer mediaPlayer;
     private static final int REQUEST_WRITE_EXTERNAL_STORAGE = 1;
+
+
+
 
 //    final Handler handler = new Handler(Looper.getMainLooper()) {
 //        @Override
@@ -121,6 +129,34 @@ public class WeatherActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        try {
+            URL url = new URL("http://ict.usth.edu.vn/wp-content/" + "uploads/usth/usthlogo.png");
+
+            HttpURLConnection connection = null;
+
+            connection = (HttpURLConnection) url.openConnection();
+
+            connection.setRequestMethod("GET");
+            connection.setDoInput(true);
+            connection.connect();
+
+            int response = connection.getResponseCode();
+            Log.i("USTHWeather", "The response is: " + response);
+            InputStream is = connection.getInputStream();
+
+            Bitmap bitmap = BitmapFactory.decodeStream(is);
+            ImageView logo = (ImageView) findViewById(R.id.logo);
+            logo.setImageBitmap(bitmap);
+            connection.disconnect();
+
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
+
 
 
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -240,6 +276,7 @@ public class WeatherActivity extends AppCompatActivity {
 
             }
         });
+
 
 
 
